@@ -24,16 +24,18 @@ export class PrevArrow extends React.PureComponent {
       prevHandler = null;
     }
 
+    const prevArrowStyle = (this.props.prevArrow && this.props.prevArrow.props && this.props.prevArrow.props.style) || {}
+
     let prevArrowProps = {
       key: "0",
       "data-role": "none",
       className: classnames(prevClasses),
-      style: { display: "block" },
+      style: { display: "block", ...prevArrowStyle },
       onClick: prevHandler
     };
     let customProps = {
-      currentSlide: this.props.currentSlide,
-      slideCount: this.props.slideCount
+      currentslide: this.props.currentSlide,
+      slidecount: this.props.slideCount
     };
     let prevArrow;
 
@@ -71,16 +73,18 @@ export class NextArrow extends React.PureComponent {
       nextHandler = null;
     }
 
+    const nextArrowStyle = (this.props.nextArrow && this.props.nextArrow.props && this.props.nextArrow.props.style) || {}
+
     let nextArrowProps = {
       key: "1",
       "data-role": "none",
       className: classnames(nextClasses),
-      style: { display: "block" },
+      style: { display: "block", ...nextArrowStyle },
       onClick: nextHandler
     };
     let customProps = {
-      currentSlide: this.props.currentSlide,
-      slideCount: this.props.slideCount
+      currentslide: this.props.currentSlide,
+      slidecount: this.props.slideCount
     };
     let nextArrow;
 
