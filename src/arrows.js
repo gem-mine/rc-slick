@@ -12,7 +12,9 @@ export class PrevArrow extends React.PureComponent {
     this.props.clickHandler(options, e);
   }
   render() {
-    let prevClasses = { "slick-arrow": true, "slick-prev": true };
+    const prevArrowStyle = (this.props.prevArrow && this.props.prevArrow.props && this.props.prevArrow.props.style) || {}
+    const prevArrowClass = (this.props.prevArrow && this.props.prevArrow.props && this.props.prevArrow.props.className) || {}
+    let prevClasses = { "slick-arrow": true, "slick-prev": true, [prevArrowClass]: true };
     let prevHandler = this.clickHandler.bind(this, { message: "previous" });
 
     if (
@@ -23,8 +25,6 @@ export class PrevArrow extends React.PureComponent {
       prevClasses["slick-disabled"] = true;
       prevHandler = null;
     }
-
-    const prevArrowStyle = (this.props.prevArrow && this.props.prevArrow.props && this.props.prevArrow.props.style) || {}
 
     let prevArrowProps = {
       key: "0",
