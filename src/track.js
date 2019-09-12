@@ -29,9 +29,22 @@ var getSlideClasses = spec => {
       slickActive = true;
     }
   } else {
-    slickActive =
-      spec.currentSlide <= index &&
-      index < spec.currentSlide + spec.slidesToShow;
+    // 当slidesToShow，slidesToScroll与count不是倍数关系的时候，currentSlide在最后一个scroll位置不统一
+    if (
+      spec.currentSlide >= spec.slideCount - spec.slidesToShow &&
+      spec.currentSlide < spec.slideCount &&
+      // 如果除不尽的话，才会被处理为最后一次滚动不按照slidesToScroll的数量，而是滚动到最后一个幻灯片
+      // 如 slidesToShow: 3, slidesToScroll: 3, slideCount: 8
+      spec.slideCount % spec.slidesToScroll !== 0
+    ) {
+      slickActive =
+        index + 1 > spec.slideCount - spec.slidesToShow &&
+        index + 1 <= spec.slideCount;
+    } else {
+      slickActive =
+        spec.currentSlide <= index &&
+        index < spec.currentSlide + spec.slidesToShow;
+    }
   }
   let slickCurrent = index === spec.currentSlide;
   return {

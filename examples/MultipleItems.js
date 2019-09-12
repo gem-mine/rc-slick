@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import Slider from "../src/slider";
 
 export default class MultipleItems extends Component {
+  onClick = index => {
+    console.log(index);
+  };
   render() {
     const settings = {
       dots: true,
@@ -10,37 +13,24 @@ export default class MultipleItems extends Component {
       slidesToShow: 3,
       slidesToScroll: 3
     };
+
+    const arr = new Array(9).fill(1);
     return (
       <div>
         <h2> Multiple items </h2>
         <Slider {...settings}>
-          <div>
-            <h3>1</h3>
-          </div>
-          <div>
-            <h3>2</h3>
-          </div>
-          <div>
-            <h3>3</h3>
-          </div>
-          <div>
-            <h3>4</h3>
-          </div>
-          <div>
-            <h3>5</h3>
-          </div>
-          <div>
-            <h3>6</h3>
-          </div>
-          <div>
-            <h3>7</h3>
-          </div>
-          <div>
-            <h3>8</h3>
-          </div>
-          <div>
-            <h3>9</h3>
-          </div>
+          {arr.map((item, index) => {
+            return (
+              <div
+                key={index}
+                onClick={() => {
+                  this.onClick(index + 1);
+                }}
+              >
+                <h3>{index + 1}</h3>
+              </div>
+            );
+          })}
         </Slider>
       </div>
     );
