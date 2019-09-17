@@ -14,7 +14,7 @@ export default class MultipleItems extends Component {
       slidesToScroll: 3
     };
 
-    const arr = new Array(9).fill(1);
+    const arr = new Array(8).fill(1);
     return (
       <div>
         <h2> Multiple items </h2>
