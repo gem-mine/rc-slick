@@ -52,7 +52,7 @@ export class InnerSlider extends React.Component {
       this.list.style.height = getHeight(elem) + "px";
     }
   };
-  componentWillMount = () => {
+  UNSAFE_componentWillMount = () => {
     this.ssrInit();
     this.props.onInit && this.props.onInit();
     if (this.props.lazyLoad) {
@@ -97,10 +97,6 @@ export class InnerSlider extends React.Component {
         slide.onblur = this.props.pauseOnFocus ? this.onSlideBlur : null;
       }
     );
-    // To support server-side rendering
-    if (!window) {
-      return;
-    }
     if (window.addEventListener) {
       window.addEventListener("resize", this.onWindowResized);
     } else {
@@ -127,7 +123,7 @@ export class InnerSlider extends React.Component {
       clearInterval(this.autoplayTimer);
     }
   };
-  componentWillReceiveProps = nextProps => {
+  UNSAFE_componentWillReceiveProps = nextProps => {
     let spec = {
       listRef: this.list,
       trackRef: this.track,
@@ -388,9 +384,7 @@ export class InnerSlider extends React.Component {
     );
     onLazyLoad && slidesToLoad.length > 0 && onLazyLoad(slidesToLoad);
     this.setState(state, () => {
-      asNavFor &&
-        asNavFor.innerSlider.state.currentSlide !== this.state.currentSlide &&
-        asNavFor.innerSlider.slideHandler(index);
+      asNavFor && asNavFor.innerSlider.slideHandler(index);
       if (!nextState) return;
       this.animationEndCallback = setTimeout(() => {
         const { animating, ...firstBatch } = nextState;
@@ -710,7 +704,8 @@ export class InnerSlider extends React.Component {
 
     let innerSliderProps = {
       className: className,
-      dir: "ltr"
+      dir: "ltr",
+      style: this.props.style
     };
 
     if (this.props.unslick) {
