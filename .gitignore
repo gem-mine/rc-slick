@@ -18,3 +18,5 @@ jquery.html
 docs/fonts/
 docs/ajax-loader.gif
 package-lock.json
+.DS_Store
+
