@@ -34,8 +34,8 @@ export class PrevArrow extends React.PureComponent {
       onClick: prevHandler
     };
     let customProps = {
-      currentSlide: this.props.currentSlide,
-      slideCount: this.props.slideCount
+      currentslide: this.props.currentSlide,
+      slidecount: this.props.slideCount
     };
     let prevArrow;
 
@@ -83,8 +83,8 @@ export class NextArrow extends React.PureComponent {
       onClick: nextHandler
     };
     let customProps = {
-      currentSlide: this.props.currentSlide,
-      slideCount: this.props.slideCount
+      currentslide: this.props.currentSlide,
+      slidecount: this.props.slideCount
     };
     let nextArrow;
 
