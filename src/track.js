@@ -46,7 +46,16 @@ const getSlideClasses = spec => {
         index < spec.currentSlide + spec.slidesToShow;
     }
   }
-  let slickCurrent = index === spec.currentSlide;
+
+  let focusedSlide;
+  if (spec.targetSlide < 0) {
+    focusedSlide = spec.targetSlide + spec.slideCount;
+  } else if (spec.targetSlide >= spec.slideCount) {
+    focusedSlide = spec.targetSlide - spec.slideCount;
+  } else {
+    focusedSlide = spec.targetSlide;
+  }
+  let slickCurrent = index === focusedSlide;
   return {
     "slick-slide": true,
     "slick-active": slickActive,
@@ -71,22 +80,24 @@ const getSlideStyle = spec => {
       style.left = -spec.index * parseInt(spec.slideWidth);
     }
     style.opacity = spec.currentSlide === spec.index ? 1 : 0;
-    style.transition =
-      "opacity " +
-      spec.speed +
-      "ms " +
-      spec.cssEase +
-      ", " +
-      "visibility " +
-      spec.speed +
-      "ms " +
-      spec.cssEase;
+    if (spec.useCSS) {
+      style.transition =
+        "opacity " +
+        spec.speed +
+        "ms " +
+        spec.cssEase +
+        ", " +
+        "visibility " +
+        spec.speed +
+        "ms " +
+        spec.cssEase;
+    }
   }
 
   return style;
 };
 
-const getKey = (child, fallbackKey) => child.key || fallbackKey;
+const getKey = (child, fallbackKey) => child.key + "-" + fallbackKey;
 
 const renderSlides = spec => {
   let key;
@@ -200,12 +211,19 @@ const renderSlides = spec => {
 };
 
 export class Track extends React.PureComponent {
+  node = null;
+
+  handleRef = ref => {
+    this.node = ref;
+  };
+
   render() {
     const slides = renderSlides(this.props);
     const { onMouseEnter, onMouseOver, onMouseLeave } = this.props;
     const mouseEvents = { onMouseEnter, onMouseOver, onMouseLeave };
     return (
       <div
+        ref={this.handleRef}
         className="slick-track"
         style={this.props.trackStyle}
         {...mouseEvents}
