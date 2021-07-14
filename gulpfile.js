@@ -8,6 +8,8 @@ var WebpackDevServer = require("webpack-dev-server");
 var assign = require("object-assign");
 var opn = require("opn");
 
+var UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+
 const DEV_PORT = 8080;
 
 gulp.task("clean", function() {
@@ -54,9 +56,14 @@ gulp.task(
 
 gulp.task(
   "server",
-  gulp.series(["watch", "copy", "sass"], function(done) {
+  gulp.series(["watch", "copy", "sass"], function() {
     console.log("Start");
     var myConfig = require("./webpack.config");
+    if (process.env.SINGLE_DEMO) {
+      myConfig.entry = {
+        "docs.js": "./docs/single-demo.js"
+      };
+    }
     myConfig.plugins = myConfig.plugins.concat(
       new webpack.DefinePlugin({
         "process.env": {
@@ -68,17 +75,18 @@ gulp.task(
     new WebpackDevServer(webpack(myConfig), {
       contentBase: "./build",
       hot: true,
-      debug: true
+      stats: {
+        colors: true
+      }
     }).listen(DEV_PORT, "0.0.0.0", function(err, result) {
       if (err) {
         console.log(err);
       } else {
-        const server_url = `http://localhost:${DEV_PORT}`;
+        const server_url = `http://0.0.0.0:${DEV_PORT}`;
         console.log(`> Dev Server started at ${server_url}`);
         opn(server_url);
       }
     });
-    done();
   })
 );
 
@@ -91,6 +99,7 @@ var distConfig = require("./webpack.config.dist.js");
 gulp.task("dist-unmin", function(cb) {
   var unminConfig = assign({}, distConfig);
   unminConfig.output.filename = "react-slick.js";
+  unminConfig.mode = "none";
   return webpack(unminConfig, function(err, stat) {
     console.error(err);
     cb();
@@ -101,8 +110,11 @@ gulp.task("dist-min", function(cb) {
   var minConfig = assign({}, distConfig);
   minConfig.output.filename = "react-slick.min.js";
   minConfig.plugins = minConfig.plugins.concat(
-    new webpack.optimize.UglifyJsPlugin({
-      compressor: {
+    new UglifyJsPlugin({
+      cache: true,
+      parallel: true,
+      sourceMap: true,
+      uglifyOptions: {
         warnings: false
       }
     })
