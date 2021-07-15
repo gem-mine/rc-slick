@@ -1,6 +1,6 @@
 {
   "name": "@gem-mine/rc-slick",
-  "version": "2.0.0-beta.2",
+  "version": "2.1.0",
   "description": " React port of slick carousel",
   "main": "./lib",
   "module": "./es",
