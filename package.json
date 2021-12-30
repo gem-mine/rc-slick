@@ -1,18 +1,23 @@
 {
   "name": "@gem-mine/rc-slick",
-  "version": "2.0.0-beta.2",
+  "version": "2.1.0",
   "description": " React port of slick carousel",
   "main": "./lib",
+  "module": "./es",
+  "types": "./types.d.ts",
   "files": [
     "dist",
     "lib",
+    "es",
     "types.d.ts"
   ],
   "scripts": {
     "start": "gulp server",
+    "demo": "SINGLE_DEMO=true gulp server",
     "build-dev": "gulp clean && gulp sass && gulp copy && webpack",
     "lib": "babel ./src --out-dir ./lib",
-    "build": "npm run lib && gulp dist",
+    "es": "cross-env ESMODULES=true babel ./src --out-dir ./es",
+    "build": "npm run lib && npm run es && gulp dist",
     "prepublishOnly": "npm run build",
     "test": "npm run lint && jest",
     "test:watch": "jest --watch",
@@ -24,7 +29,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/akiran/react-slick"
+    "url": "https://github.com/ant-design/react-slick"
   },
   "keywords": [
     "slick",
@@ -48,6 +53,7 @@
     "babel-jest": "^26.1.0",
     "babel-loader": "^8.0.4",
     "babel-preset-airbnb": "^5.0.0",
+    "cross-env": "^7.0.3",
     "css-loader": "^5.0.0",
     "deepmerge": "^1.1.0",
     "del": "^2.2.2",
@@ -91,12 +97,11 @@
     "@babel/runtime": "^7.10.4",
     "classnames": "^2.2.5",
     "json2mq": "^0.2.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "resize-observer-polyfill": "^1.5.0"
   },
   "peerDependencies": {
-    "react": "^0.14.0 || ^15.0.1 || ^16.0.0 || ^17.0.0",
-    "react-dom": "^0.14.0 || ^15.0.1 || ^16.0.0 || ^17.0.0"
+    "react": ">=16.9.0"
   },
   "jest": {
     "setupFiles": [
@@ -123,12 +128,15 @@
     }
   ],
   "bugs": {
-    "url": "https://github.com/akiran/react-slick/issues"
+    "url": "https://github.com/ant-design/react-slick/issues"
   },
-  "homepage": "https://github.com/akiran/react-slick",
+  "homepage": "https://react-slick.neostack.com",
   "collective": {
     "type": "opencollective",
     "url": "https://opencollective.com/react-slick",
     "logo": "https://opencollective.com/opencollective/logo.txt"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
